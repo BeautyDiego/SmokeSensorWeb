@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[0] %>">
+    <link rel="stylesheet" name="theme" href="">
+</head>
+
+<body>
+    <div id="app"></div>
+    <div class="lock-screen-back" id="lock_screen_back"></div>
+    <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-alpha.20/polyfill.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/3.0.1/vue-router.min.js"></script>
+    <script src="https://cdn.bootcss.com/vuex/3.0.1/vuex.min.js"></script>
+    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[0] %>"></script>
+    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[1] %>"></script>
+    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[2] %>"></script>
+    <script src="https://cdn.bootcss.com/echarts/3.8.5/echarts.common.min.js"></script>
+</body>
+
+</html>
