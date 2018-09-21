@@ -11,7 +11,7 @@
             <div>
                 <div style="text-align: center;font-size:24px;font-weight:700;letter-spacing:2px;padding:20px 10px;color:#fff;">
                     <!--<img src="./../images/loginChaoda.png" alt="" style="width:245px;">-->
-                    烟感设备管理平台
+                    智慧消防云监控平台
                 </div>
                 <div class="form-con">
                     <Form ref="loginForm" :model="form" :rules="rules" >

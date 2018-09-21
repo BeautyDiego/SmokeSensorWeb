@@ -80,6 +80,11 @@
         <Option v-for="(item,index) in agentList" :value="item.Id" :key="index">{{ item.UserName }}</Option>
       </Select>
     </Modal>
+        <Modal title="安装照片" v-model="visible">
+      <img :src="devImage" v-if="visible" style="width: 100%">
+            <div slot="footer">
+      </div>
+    </Modal>
   </div>
 
 </template>
@@ -172,6 +177,31 @@ export default {
           key: "Mobile"
         },
         {
+            align:'center',
+            title: '安装图',
+            minWidth: 80,
+            key: 'Pic1',
+            render: (h, params) => {
+              let imgSrc=params.row.Pic1;
+              if(imgSrc)
+              imgSrc = baseUrl+imgSrc;
+              return h('img',{
+                attrs: {
+                  src: imgSrc
+                },
+                on: {
+                click: () => {
+                  this.handleView(imgSrc)
+                }
+              },
+                style:{
+                  width:'60px',
+                  height:'60px'
+                }
+              });
+            }
+          },
+        {
           title: "操作",
           minWidth: 140,
           align: "center",
@@ -259,7 +289,9 @@ export default {
       selectedRows: [],
       distributeModal: false,
       distriAgentId: "",
-      importFormShow: false
+      importFormShow: false,
+      visible: false,
+      devImage:""
     };
   },
   computed: {},
@@ -377,6 +409,10 @@ export default {
 
                 }
             },
+                 handleView (img) {
+                   this.devImage=img;
+                  this.visible = true
+                }
   }
 };
 </script>
