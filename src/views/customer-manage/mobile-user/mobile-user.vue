@@ -55,6 +55,13 @@
         <Button type="error" size="large" long :loading="btnLoading" @click="comfirmDel">删除</Button>
       </div>
     </Modal>
+
+        </Modal>
+        <Modal title="责任书" v-model="visible">
+      <img :src="dutypath" v-if="visible" style="width: 100%">
+            <div slot="footer">
+      </div>
+    </Modal>
   </div>
 
 </template>
@@ -63,6 +70,7 @@
 import { getMobileCusPagedList } from "../../../api/getData";
 import { clearObj } from "../../../libs/util";
 import formatter from "./../../../libs/formatter";
+import {baseUrl} from './../../../api/env'
 export default {
   name: "mobile-user",
   data() {
@@ -85,15 +93,46 @@ export default {
           title: "手机号",
           key: "Mobile"
         },
+       {
+          align: "center",
+          title: "商铺名称",
+          key: "ShopName"
+        },
         {
           align: "center",
           title: "地址",
           key: "ADDR"
-        }
+        },
+           {
+            align:'center',
+            title: '责任书',
+            minWidth: 80,
+            key: 'DutyLetter',
+            render: (h, params) => {
+              let imgSrc=params.row.DutyLetter;
+              if(imgSrc)
+              imgSrc = baseUrl+imgSrc;
+              return h('img',{
+                attrs: {
+                  src: imgSrc
+                },
+                on: {
+                click: () => {
+                  this.handleView(imgSrc)
+                }
+              },
+                style:{
+                  width:'60px',
+                  height:'60px'
+                }
+              });
+            }
+          },
       ],
       tableData: [],
       total: 0,
       currentPage: 1,
+       visible: false,
       delModal: false,
       delId: "", //删除的Id
       btnLoading: false,
@@ -155,7 +194,11 @@ export default {
     },
     hideModel() {
       this.formShow = false;
-    }
+    },
+            handleView (img) {
+                   this.dutypath=img;
+                  this.visible = true
+                }
   }
 };
 </script>
