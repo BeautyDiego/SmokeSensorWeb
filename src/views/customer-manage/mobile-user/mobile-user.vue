@@ -42,6 +42,8 @@
     <Row>
       <Page :total="total" :current="currentPage" @on-change="changeCurrentPage" show-total style="float:right;margin-top:10px"></Page>
     </Row>
+    <!--新增编辑-->
+    <mobileUserForm :modalShow="formShow" :modalFormTitle="formTitle" :parentForm="parentForm" @listenModalForm="hideModel" @refreshTableList="getTableList"></mobileUserForm>
     <!--是否删除框-->
     <Modal v-model="delModal" width="360">
       <p slot="header" style="color:#f60;text-align:center">
@@ -56,10 +58,10 @@
       </div>
     </Modal>
 
-        </Modal>
-        <Modal title="责任书" v-model="visible">
+    </Modal>
+    <Modal title="责任书" v-model="visible">
       <img :src="dutypath" v-if="visible" style="width: 100%">
-            <div slot="footer">
+      <div slot="footer">
       </div>
     </Modal>
   </div>
@@ -68,11 +70,15 @@
 
 <script>
 import { getMobileCusPagedList } from "../../../api/getData";
+import mobileUserForm from "./mobile-user-form.vue";
 import { clearObj } from "../../../libs/util";
 import formatter from "./../../../libs/formatter";
-import {baseUrl} from './../../../api/env'
+import { baseUrl } from "./../../../api/env";
 export default {
   name: "mobile-user",
+  components: {
+    mobileUserForm
+  },
   data() {
     return {
       tableLoading: false,
@@ -93,7 +99,7 @@ export default {
           title: "手机号",
           key: "Mobile"
         },
-       {
+        {
           align: "center",
           title: "商铺名称",
           key: "ShopName"
@@ -103,36 +109,67 @@ export default {
           title: "地址",
           key: "ADDR"
         },
-           {
-            align:'center',
-            title: '责任书',
-            minWidth: 80,
-            key: 'DutyLetter',
-            render: (h, params) => {
-              let imgSrc=params.row.DutyLetter;
-              if(imgSrc)
-              imgSrc = baseUrl+imgSrc;
-              return h('img',{
+        {
+          align: "center",
+          title: "责任书",
+          minWidth: 80,
+          key: "DutyLetter",
+          render: (h, params) => {
+            let imgSrc = params.row.DutyLetter;
+            if (imgSrc) {
+              imgSrc = baseUrl + imgSrc;
+              return h("img", {
                 attrs: {
                   src: imgSrc
                 },
                 on: {
-                click: () => {
-                  this.handleView(imgSrc)
-                }
-              },
-                style:{
-                  width:'60px',
-                  height:'60px'
+                  click: () => {
+                    this.handleView(imgSrc);
+                  }
+                },
+                style: {
+                  width: "30px",
+                  height: "30px"
                 }
               });
             }
-          },
+          }
+        },
+        {
+          title: "操作",
+          minWidth: 140,
+          align: "center",
+          render: (h, params) => {
+            let actions = [];
+            actions.push(
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "warning",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px"
+                  },
+                  on: {
+                    click: () => {
+                      this.editItem(params.row);
+                    }
+                  }
+                },
+                "修改"
+              )
+            );
+
+            return h("div", actions);
+          }
+        }
       ],
       tableData: [],
       total: 0,
       currentPage: 1,
-       visible: false,
+      visible: false,
       delModal: false,
       delId: "", //删除的Id
       btnLoading: false,
@@ -141,7 +178,10 @@ export default {
         Mobile: "",
         rows: 10,
         page: 1
-      }
+      },
+      formShow: false,
+      formTitle: "修改微信用户",
+      parentForm: {}
     };
   },
   computed: {},
@@ -171,6 +211,11 @@ export default {
       this.currentPage = num;
       this.getTableList();
     },
+    editItem(row) {
+      this.parentForm = JSON.parse(JSON.stringify(row));
+      this.formTitle = "修改微信用户";
+      this.formShow = true;
+    },
     delItem(Id) {
       this.delId = Id;
       this.delModal = true;
@@ -195,10 +240,10 @@ export default {
     hideModel() {
       this.formShow = false;
     },
-            handleView (img) {
-                   this.dutypath=img;
-                  this.visible = true
-                }
+    handleView(img) {
+      this.dutypath = img;
+      this.visible = true;
+    }
   }
 };
 </script>

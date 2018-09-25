@@ -6,7 +6,7 @@
 
 <div>
   
-  <Modal v-model="IsModalShow" title="SIM卡导入" :mask-closable="false" @on-cancel="cancel" width="680">
+  <Modal v-model="IsModalShow" title="烟感设备导入" :mask-closable="false" @on-cancel="cancel" width="680">
     <Row style="margin-bottom:20px;">
       <Button @click="downloadExcelTemplate" type="ghost" style="background-color:#fff"  size="large"
               icon="archive">导入模版
@@ -100,7 +100,6 @@ export default {
       cancel() {
           if (!this.IsUploading){
               this.$emit('listenModalForm');
-
           }
       },
       beforeUpload(){

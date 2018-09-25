@@ -21,7 +21,7 @@
       <Form-item label="IMEI" prop="IMEI" :rules="{required: true, message: '必填', trigger:'blur',type:'string'}" >
         <Input v-model="modalForm.IMEI" maxlength=20></Input>
       </Form-item>
-      <Form-item label="ICCID" prop="ICCID" :rules="{required: true, message: '必填', trigger:'blur',type:'string'}" >
+      <Form-item label="ICCID" prop="ICCID" >
         <Input v-model="modalForm.ICCID" maxlength=25></Input>
       </Form-item>
       <Form-item label="安装地址" >

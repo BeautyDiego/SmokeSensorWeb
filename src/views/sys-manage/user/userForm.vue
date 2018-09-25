@@ -22,7 +22,7 @@
       <Form-item v-if="modalFormTitle==='添加用户'" label="密码" prop="Password"  :rules="{required: true, message: '必填,6-16位数字或字母或-_', trigger:'blur',type:'string',pattern: /^[a-zA-Z0-9_-]{6,16}$/}" >
         <Input v-model="modalForm.Password" type="password"></Input>
       </Form-item>
-      <Form-item label="电话"  >
+      <Form-item label="电话" prop="Mobile" :rules="{required: true, message: '输入11位手机号', trigger:'blur',type:'string',pattern: /^1\d{10}$/}">
         <Input v-model="modalForm.Mobile" ></Input>
       </Form-item>
       <Form-item label="性别"  >

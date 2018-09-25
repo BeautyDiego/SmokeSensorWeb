@@ -13,7 +13,7 @@
         <Col span="24">
         <Button @click="toExcel" type="ghost" style="background-color:#fff" class="top-btn" size="large" icon="archive">导出
         </Button>
-        <Button @click="importDevice" type="warning" class="top-btn" size="large" icon="ios-cloud-upload-outline">导入SIM卡
+        <Button @click="importDevice" type="warning" class="top-btn" size="large" icon="ios-cloud-upload-outline">导入烟感设备
         </Button>
         <Button @click="distributeDevice" type="error" class="top-btn" size="large" icon="stats-bars">分配设备</Button>
         <Button class="top-right-btn" size="large" icon="plus" @click="addItem">添加</Button>
@@ -53,10 +53,10 @@
     </div>
     <!--table-->
     <Row>
-      <Table stripe size="small" :loading="tableLoading" :columns="tableColums" :data="tableData" @on-selection-change="onTableSelectChange"></Table>
+      <Table stripe size="small" :height="tableHeight" :loading="tableLoading" :columns="tableColums" :data="tableData" @on-selection-change="onTableSelectChange"></Table>
     </Row>
     <Row>
-      <Page :total="total" :current="currentPage" @on-change="changeCurrentPage" show-total style="float:right;margin-top:10px"></Page>
+      <Page :total="total" :page-size="currentPageSize" :current="currentPage" @on-change="changeCurrentPage" show-total show-sizer style="float:right;margin-top:10px"></Page>
     </Row>
     <!--新增编辑-->
     <deviceForm :modalShow="formShow" :modalFormTitle="formTitle" :parentForm="parentForm" @listenModalForm="hideModel" @refreshTableList="getTableList"></deviceForm>
@@ -80,9 +80,9 @@
         <Option v-for="(item,index) in agentList" :value="item.Id" :key="index">{{ item.UserName }}</Option>
       </Select>
     </Modal>
-        <Modal title="安装照片" v-model="visible">
+    <Modal title="安装照片" v-model="visible">
       <img :src="devImage" v-if="visible" style="width: 100%">
-            <div slot="footer">
+      <div slot="footer">
       </div>
     </Modal>
   </div>
@@ -100,7 +100,7 @@ import {
 import { clearObj } from "../../../libs/util";
 import deviceForm from "./deviceForm.vue";
 import deviceImport from "./deviceImport.vue";
-import {baseUrl} from './../../../api/env'
+import { baseUrl } from "./../../../api/env";
 export default {
   name: "Res_Operator",
   components: {
@@ -118,7 +118,7 @@ export default {
         },
         {
           type: "index",
-          minWidth: 50,
+          minWidth: 60,
           title: "序号",
           align: "center"
         },
@@ -136,7 +136,7 @@ export default {
         },
         {
           align: "center",
-          minWidth: 120,
+          minWidth: 160,
           title: "IMEI",
           key: "IMEI"
         },
@@ -160,7 +160,7 @@ export default {
         },
         {
           align: "center",
-          minWidth: 160,
+          minWidth: 120,
           title: "片区管理者",
           key: "AgentName"
         },
@@ -177,30 +177,31 @@ export default {
           key: "Mobile"
         },
         {
-            align:'center',
-            title: '安装图',
-            minWidth: 80,
-            key: 'Pic1',
-            render: (h, params) => {
-              let imgSrc=params.row.Pic1;
-              if(imgSrc)
-              imgSrc = baseUrl+imgSrc;
-              return h('img',{
+          align: "center",
+          title: "安装图",
+          minWidth: 80,
+          key: "Pic1",
+          render: (h, params) => {
+            let imgSrc = params.row.Pic1;
+            if (imgSrc) {
+              imgSrc = baseUrl + imgSrc;
+              return h("img", {
                 attrs: {
                   src: imgSrc
                 },
                 on: {
-                click: () => {
-                  this.handleView(imgSrc)
-                }
-              },
-                style:{
-                  width:'60px',
-                  height:'60px'
+                  click: () => {
+                    this.handleView(imgSrc);
+                  }
+                },
+                style: {
+                  width: "20px",
+                  height: "20px"
                 }
               });
             }
-          },
+          }
+        },
         {
           title: "操作",
           minWidth: 140,
@@ -254,8 +255,10 @@ export default {
         }
       ],
       tableData: [],
+      tableHeight: window.innerHeight - 300,
       total: 0,
       currentPage: 1,
+      currentPageSize: 20,
       formShow: false,
       formTitle: "添加设备",
       parentForm: {
@@ -283,7 +286,7 @@ export default {
         DevModel: "",
         IMEI: "",
         ICCID: "",
-        rows: 10,
+        rows: 20,
         page: 1
       },
       selectedRows: [],
@@ -291,7 +294,7 @@ export default {
       distriAgentId: "",
       importFormShow: false,
       visible: false,
-      devImage:""
+      devImage: ""
     };
   },
   computed: {},
@@ -299,6 +302,12 @@ export default {
   mounted() {
     this.getAgentComboList();
     this.getTableList();
+    const vm = this;
+    window.onresize = () => {
+      return (() => {
+        vm.tableHeight = window.innerHeight - 300;
+      })();
+    };
   },
   methods: {
     resetSearch() {
@@ -314,6 +323,7 @@ export default {
     async getTableList() {
       this.tableLoading = true;
       this.searchForm.page = this.currentPage;
+      this.searchForm.rows = this.currentPageSize;
       const params = this.searchForm;
       const res = await getDevicePagedList(params);
       this.total = res.total;
@@ -399,20 +409,22 @@ export default {
     importDevice() {
       this.importFormShow = true;
     },
-                async toExcel() {
-                const params = this.searchForm;
-                const res = await getDeviceListExcel(params);
-                if (res.success) {
-                    const url = baseUrl + "/excel/" + res.filename;
-                    window.open(url);
-                } else {
-
-                }
-            },
-                 handleView (img) {
-                   this.devImage=img;
-                  this.visible = true
-                }
+    hideImportModel() {
+      this.importFormShow = false;
+    },
+    async toExcel() {
+      const params = this.searchForm;
+      const res = await getDeviceListExcel(params);
+      if (res.success) {
+        const url = baseUrl + "/excel/" + res.filename;
+        window.open(url);
+      } else {
+      }
+    },
+    handleView(img) {
+      this.devImage = img;
+      this.visible = true;
+    }
   }
 };
 </script>

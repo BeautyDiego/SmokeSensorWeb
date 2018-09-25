@@ -118,6 +118,7 @@ export const getDeviceListExcel = data => fetch('/Smk_Devices/ToExcel', data, 'P
 // region 微信用户
 
 export const getMobileCusPagedList = data => fetch('/Mobile_Cus/List_Mobile_Cus', data, 'POST');
+export const editMobileCus = data => fetch('/Mobile_Cus/Edit_Mobile_Cus', data, 'POST');
 
 // endregion
 
