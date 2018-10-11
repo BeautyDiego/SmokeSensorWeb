@@ -56,7 +56,7 @@
       <Table stripe size="small" :height="tableHeight" :loading="tableLoading" :columns="tableColums" :data="tableData" @on-selection-change="onTableSelectChange"></Table>
     </Row>
     <Row>
-      <Page :total="total" :page-size="currentPageSize" :current="currentPage" @on-change="changeCurrentPage" show-total show-sizer style="float:right;margin-top:10px"></Page>
+      <Page :total="total" :page-size="currentPageSize" :current="currentPage" @on-change="changeCurrentPage" @on-page-size-change="changePageSize" show-total show-sizer style="float:right;margin-top:10px"></Page>
     </Row>
     <!--新增编辑-->
     <deviceForm :modalShow="formShow" :modalFormTitle="formTitle" :parentForm="parentForm" @listenModalForm="hideModel" @refreshTableList="getTableList"></deviceForm>
@@ -334,6 +334,10 @@ export default {
       this.currentPage = num;
       this.getTableList();
     },
+    changePageSize(pageSize){
+      this.currentPageSize = pageSize;
+      this.getTableList();
+    },
     async getAgentComboList() {
       this.agentList = await getAgentList();
     },
@@ -354,7 +358,7 @@ export default {
     async comfirmDel() {
       this.btnLoading = true;
       try {
-        const res = await delResOperator({ Id: this.delId });
+        const res = await delDevice({ Id: this.delId });
         if (res.success) {
           this.$Message.success("删除成功!");
           this.getTableList();

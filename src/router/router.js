@@ -84,6 +84,21 @@ export const appRouter = [{
         component: resolve => void(require(['@/views/asset-manage/device-manage/deviceTable.vue'], resolve)),
     }]
 }, {
+    path: '/network-unit',
+    icon: 'ios-infinite',
+    name: 'network-unit',
+    access: 0,
+    title: '联网单位管理',
+    component: Main,
+    children: [{
+        path: 'areasTable',
+        title: '区域管理',
+        access: 0,
+        name: 'areasTable',
+        icon: 'link',
+        component: resolve => void(require(['@/views/network-unit/areas/areasTable.vue'], resolve)),
+    }]
+}, {
     path: '/customer-manage',
     icon: 'ios-infinite',
     name: 'customer-manage',
