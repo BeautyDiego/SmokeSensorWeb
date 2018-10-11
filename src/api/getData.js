@@ -122,6 +122,15 @@ export const editMobileCus = data => fetch('/Mobile_Cus/Edit_Mobile_Cus', data, 
 
 // endregion
 
+// region 联网单位管理
+
+// 地区
+export const getAreasPagedList = data => fetch('/Smk_Areas/List_Smk_Areas', data, 'POST');
+export const addAreas = data => fetch('/Smk_Areas/Add_Smk_Areas', data, 'POST');
+export const editAreas = data => fetch('/Smk_Areas/Edit_Smk_Areas', data, 'POST');
+
+// endregion
+
 // region 首页
 
 export const getSimCardGroupStatic = data => fetch('/Home/SimCardGroupStatic', data, 'POST');
