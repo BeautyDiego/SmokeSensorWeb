@@ -91,6 +91,20 @@ export const appRouter = [{
     title: '联网单位管理',
     component: Main,
     children: [{
+        path: 'groupCompanyTable',
+        title: '联网单位',
+        access: 0,
+        name: 'groupCompanyTable',
+        icon: 'link',
+        component: resolve => void(require(['@/views/network-unit/group-company/groupCompanyTable.vue'], resolve)),
+    }, {
+        path: 'maintenanceTable',
+        title: '维保单位',
+        access: 0,
+        name: 'maintenanceTable',
+        icon: 'link',
+        component: resolve => void(require(['@/views/network-unit/maintenance/maintenanceTable.vue'], resolve)),
+    }, {
         path: 'areasTable',
         title: '区域管理',
         access: 0,

@@ -130,6 +130,18 @@ export const addAreas = data => fetch('/Smk_Areas/Add_Smk_Areas', data, 'POST');
 export const editAreas = data => fetch('/Smk_Areas/Edit_Smk_Areas', data, 'POST');
 export const delAreas = data => fetch('/Smk_Areas/Delete_Smk_Areas', data, 'POST');
 
+// 联网单位
+export const getGroupCompanyPagedList = data => fetch('/Smk_GroupCompany/List_Smk_GroupCompany', data, 'POST');
+export const addGroupCompany = data => fetch('/Smk_GroupCompany/Add_Smk_GroupCompany', data, 'POST');
+export const editGroupCompany = data => fetch('/Smk_GroupCompany/Edit_Smk_GroupCompany', data, 'POST');
+export const delGroupCompany = data => fetch('/Smk_GroupCompany/Delete_Smk_GroupCompany', data, 'POST');
+
+// 维保单位
+export const getMaintenancePagedList = data => fetch('/Smk_Maintenance/List_Smk_Maintenance', data, 'POST');
+export const addMaintenance = data => fetch('/Smk_Maintenance/Add_Smk_Maintenance', data, 'POST');
+export const editMaintenance = data => fetch('/Smk_Maintenance/Edit_Smk_Maintenance', data, 'POST');
+export const delMaintenance = data => fetch('/Smk_Maintenance/Delete_Smk_Maintenance', data, 'POST');
+
 // endregion
 
 // region 首页

@@ -26,39 +26,6 @@
                            :rules="{required: true, message: '必填,1-50位字符',min:1,max:100, trigger:'blur',type:'string'}">
                     <Input v-model="modalForm.AreaName"></Input>
                 </Form-item>
-                <!--
-                                 <Form-item label="用户名称" prop="UserName"
-                                           :rules="{required: true, message: '必填,1-10位字符',min:1,max:10, trigger:'blur',type:'string'}">
-                                    <Input v-model="modalForm.UserName"></Input>
-                                </Form-item>
-                                <Form-item label="登录名" prop="LoginName"
-                                           :rules="{required: true, message: '必填,6-16位数字或字母或-_', trigger:'blur',type:'string',pattern: /^[a-zA-Z0-9_-]{6,16}$/}">
-                                    <Input v-model="modalForm.LoginName"></Input>
-                                </Form-item>
-                                <Form-item v-if="modalFormTitle==='添加区域'" label="密码"
-                                           prop="Password"
-                                           :rules="{required: true, message: '必填,6-16位数字或字母或-_', trigger:'blur',type:'string',pattern: /^[a-zA-Z0-9_-]{6,16}$/}">
-                                    <Input v-model="modalForm.Password" type="password"></Input>
-                                </Form-item>
-                                <Form-item label="电话" prop="Mobile"
-                                           :rules="{required: true, message: '输入11位手机号', trigger:'blur',type:'string',pattern: /^1\d{10}$/}">
-                                    <Input v-model="modalForm.Mobile"></Input>
-                                </Form-item>
-                                <Form-item label="性别">
-                                    <Select v-model="modalForm.Sex" placeholder="请选择">
-                                        <Option v-for="item in SexCombo" :value="item.key"
-                                                :key="item.key">{{ item.value }}
-                                        </Option>
-                                    </Select>
-                                </Form-item>
-                                <Form-item label="角色" prop="Sys_RoleId"
-                                           :rules="{required: true, message: '必选', trigger:'change', type:'number'}">
-                                    <Select v-model="modalForm.Sys_RoleId" placeholder="请选择">
-                                        <Option v-for="item in roleComboList" :value="item.Id"
-                                                :key="item.Id">{{ item.RoleName }}
-                                        </Option>
-                                    </Select>
-                                </Form-item>-->
             </Form>
             <div slot="footer">
                 <Button type="ghost" @click="cancel">关闭</Button>
@@ -72,7 +39,7 @@
 </template>
 
 <script>
-    import {addAreas, editAreas, roleComboList} from './../../../api/getData'
+    import {addAreas, editAreas} from './../../../api/getData'
 
     export default {
         props: {
@@ -100,9 +67,7 @@
             return {
                 IsModalShow: false,
                 modalForm: {},
-                modalForm_loading: false,
-                SexCombo: [{key: 1, value: '男'}, {key: 2, value: '女'}],
-                roleComboList: [{Id: 1, RoleName: '管理员'}],
+                modalForm_loading: false
             }
         },
         watch: {
@@ -116,15 +81,11 @@
             }
         },
         created() {
-            this.getRoleComboList();
         },
         mounted() {
 
         },
         methods: {
-            async getRoleComboList() {
-                this.roleComboList = await roleComboList();
-            },
             cancel() {
                 this.$emit('listenModalForm');
             },

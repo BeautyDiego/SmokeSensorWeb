@@ -6,8 +6,8 @@
  * baseImgPath: 图片存放地址
  *
  */
-// let baseUrl = 'http://localhost:5398'
-let baseUrl = 'http://192.168.2.143:8045'
+let baseUrl = 'http://localhost:5398'
+//let baseUrl = 'http://192.168.2.143:8045'
 let frontWebUrl = 'http://localhost:8080'
 
 if (process.env.NODE_ENV === 'production') {
